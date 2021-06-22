@@ -1,5 +1,5 @@
 # speech_translator
-Translates speech from a specified language to a specified other languages.
+Translates speech from a specified language to another specified language.
 
 Uses various apis to:
   1. Speech to text (speech_recognition)
