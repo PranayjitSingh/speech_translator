@@ -1,0 +1,4 @@
+SpeechRecognition==3.9.0
+googletrans==3.1.0a0
+playsound==1.2.2
+gtts==2.3.0

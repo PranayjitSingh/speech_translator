@@ -8,7 +8,7 @@ Uses various apis to:
 
 Installation:
 1. Python 3
-2. ```pip install speech_recognition```
+2. ```pip install SpeechRecognition```
 3. ```pip install googletrans```
 4. ```pip install playsound```
 5. ```pip install gtts```

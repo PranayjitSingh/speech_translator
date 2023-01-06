@@ -1,5 +1,6 @@
 import speech_recognition as sr
 import googletrans as gt
+import configparser
 import logging
 import tkinter
 from playsound import playsound
@@ -13,7 +14,7 @@ def speech_to_text(audioData, language):
     """
     logging.info("Transcribing collected audio...")
     # using google speech to text api
-    transcribedAudio = r.recognize_google(audioData, language=language)
+    transcribedAudio = speech_recognizer.recognize_google(audioData, language=language)
     logging.info("Transcribed audio: {}".format(transcribedAudio))
     return transcribedAudio
 
@@ -25,7 +26,7 @@ def recorder():
     """
     with sr.Microphone() as mic:
         logging.info("Microphone is open")
-        audio = r.listen(mic)
+        audio = speech_recognizer.listen(mic)
     logging.info("Audio collected...")
     return audio
 
@@ -35,7 +36,7 @@ def translate(inputLang, outputLang, string):
     Translate input string to output language
     Returns: string
     """
-    translator = gt.Translator()
+    translator = gt.Translator(service_urls=['translate.googleapis.com'])
     translatedString = translator.translate(string, dest=outputLang, src=inputLang)
     logging.info(
         "Translated from {} to {}: {}".format(
@@ -63,6 +64,7 @@ def play_translation(file):
     """
     Plays the saved audio file
     """
+    logging.info("Playing translated text...")
     playsound(file)
     logging.info("Successfully outputted audio from {}".format(file))
 
@@ -92,10 +94,10 @@ def translation_parameters():
     for lang in languages:
         if languages[lang] == speechLang.get():
             found[0] = lang
-            logging.info("Input language selected: {}".format(lang))
+            logging.info("Input language selected: {}".format(languages[lang]))
         if languages[lang] == transLang.get():
             found[1] = lang
-            logging.info("Output language selected: {}".format(lang))
+            logging.info("Output language selected: {}".format(languages[lang]))
 
     return found[0], found[1]
 
@@ -116,64 +118,12 @@ def main():
 
 
 if __name__ == "__main__":
-    r = sr.Recognizer()
-    languages = {
-        "af": "Afrikaans",
-        "ar": "Arabic",
-        "bn": "Bengali",
-        "bs": "Bosnian",
-        "ca": "Catalan",
-        "cs": "Czech",
-        "cy": "Welsh",
-        "da": "Danish",
-        "de": "German",
-        "el": "Greek",
-        "en": "English",
-        "eo": "Esperanto",
-        "es": "Spanish",
-        "et": "Estonian",
-        "fi": "Finnish",
-        "fr": "French",
-        "gu": "Gujarati",
-        "hi": "Hindi",
-        "hr": "Croatian",
-        "hu": "Hungarian",
-        "hy": "Armenian",
-        "id": "Indonesian",
-        "is": "Icelandic",
-        "it": "Italian",
-        "ja": "Japanese",
-        "jw": "Javanese",
-        "km": "Khmer",
-        "kn": "Kannada",
-        "ko": "Korean",
-        "la": "Latin",
-        "lv": "Latvian",
-        "mk": "Macedonian",
-        "ml": "Malayalam",
-        "mr": "Marathi",
-        "my": "Myanmar (Burmese)",
-        "ne": "Nepali",
-        "nl": "Dutch",
-        "no": "Norwegian",
-        "pl": "Polish",
-        "pt": "Portuguese",
-        "ro": "Romanian",
-        "ru": "Russian",
-        "si": "Sinhala",
-        "sk": "Slovak",
-        "sq": "Albanian",
-        "sr": "Serbian",
-        "su": "Sundanese",
-        "sv": "Swedish",
-        "sw": "Swahili",
-        "ta": "Tamil",
-        "te": "Telugu",
-        "th": "Thai",
-        "tl": "Filipino",
-        "tr": "Turkish",
-        "uk": "Ukrainian",
-        "ur": "Urdu",
-        "vi": "Vietnamese",
-    }
+    logging.basicConfig(level=logging.INFO, format='%(message)s')
+
+    speech_recognizer = sr.Recognizer()
+
+    languagesConfig = configparser.ConfigParser()
+    languagesConfig.read("languages.ini")
+    languages = languagesConfig["LANGUAGES"]
+    
     main()
