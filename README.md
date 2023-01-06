@@ -7,11 +7,8 @@ Uses various apis to:
   3. Text to speech (gtts)
 
 Installation:
-1. Python 3
-2. ```pip install SpeechRecognition```
-3. ```pip install googletrans```
-4. ```pip install playsound```
-5. ```pip install gtts```
+1. Python 3 needed
+2. ```pip install -r requirements.txt```
 
 How to Run using Terminal:
     ```python speech_translator.py```
