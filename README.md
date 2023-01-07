@@ -2,7 +2,7 @@
 Translates speech from a specified language to another specified language.
 
 Uses various apis to:
-  1. Speech to text (speech_recognition)
+  1. Speech to text (SpeechRecognition)
   2. Translate transcribed text (googletrans)
   3. Text to speech (gtts)
 
